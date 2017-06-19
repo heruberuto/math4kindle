@@ -1,4 +1,4 @@
-#Matematická sazba a TeX vs. Kindle
+# Matematická sazba a TeX vs. Kindle
 
 Rešeršně-aplikovaný projekt odevzdávaný veřejně jako semestrální práce pro předmět [Typografie a TeX](http://petr.olsak.net/typotex.html)
 
