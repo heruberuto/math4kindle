@@ -9,11 +9,14 @@
 
 \input utf8off
 
+
+
+
 \nonstopmode
 
-\hoffset=-4mm
+\hoffset=-19mm
 \chyph % pou¾ijte formát csplain
-\advance\vsize by12pt
+\advance\vsize by-2pt
 \font\mathbf=cmmib10
 \newfam\bfmath
 \textfont\bfmath=\mathbf
@@ -32,7 +35,7 @@
 \newif\ifcviceni  
 \newif\ifpouzereseni
 
-\ladenitrue %%%%%%%%%%% tiskne odkazovací slova k jednotlivým objektùm
+%\ladenitrue %%%%%%%%%%% tiskne odkazovací slova k jednotlivým objektùm
 %\vcerejsiverze %%%%%%%% text jsem pøipravil doma veèer a TeXuji ráno v práci
 %\twosidetrue %%%%%%%%%% pro oboustranný tisk
 %\booktrue      %%%%%%%% text vcetne cviceni pro tistena skripta
@@ -47,13 +50,16 @@
 \def\nazevskripta {Úvod do algebry, zejména lineární}
 \ifbook
    \let\nazevdila=\nazevskripta
-   \mag 970 % skripta nejsou presne formatu A4, ale mensi
-   \def\offsetvalue{7mm}
+   \mag 2000 % skripta nejsou presne formatu A4, ale mensi
+   \def\offsetvalue{0mm}
    \let\orimakeheadline=\makeheadline 
    \def\makeheadline{\orimakeheadline\medskip\nointerlineskip}
 \else
    \def\nazevdila {Lineární algebra}
-   \def\offsetvalue{4mm}
+   \mag 900 % skripta nejsou presne formatu A4, ale mensi
+   \def\offsetvalue{0mm}
+   \let\orimakeheadline=\makeheadline 
+   \def\makeheadline{\orimakeheadline\medskip\nointerlineskip}
 \fi
 
 \def\beglink#1{}
@@ -92,37 +98,16 @@
       \line{\strut\it \nazevdila\hfil\headtext}%
    \fi
    \smallskip\hrule}}}
-\def\dalsiodstavec#1{%
-   \ifnextchar*{\def\nazevodstavce{#1.\kern-2pt*}\ignorechar\doodstavec}%
-               {\def\nazevodstavce{#1.}\doodstavec}}
-\def\doodstavec{\endpar \advance\odstnum by 1
-   \def\start{\noindent\leftsymbol
-    {\bf\the\kapnum.\the\odstnum. \nazevodstavce}\space\barva}
-   \aimlink{o:\the\kapnum.\the\odstnum}%
-   \ifnextchar[{\ulozlabel}{\start}}
-\def\normalendpar{\par\removelastskip \penalty-200\bigskip}
-\let\endpar=\normalendpar
-\def\barva{} \def\leftsymbol{}
-\def\ulozlabel[#1]{\aimlink{c:#1}%
-     \immediate\write\fileref { \space\space\space
-         \string\refodstavec [#1]{\the\kapnum.\the\odstnum}}%
-   \ifladeni \noindent\llap{[#1]\ \ifcviceni\quad\fi}\fi
-   \start\ignorespaces}
-\def\rce(#1){\expandafter\ifx\csname r:#1\endcsname\relax
-     \global\advance\rcenum by1
-     \expandafter\xdef\csname r:#1\endcsname {\the\kapnum.\the\rcenum}%
-     \aimlink{r:#1}%
-   \else\errmessage{duplikace labelu rce(#1)}%
-   \fi  \eqno (\the\kapnum.\the\rcenum)}
+\def\dalsiodstavec#1{}
 \def\pozn{\dalsiodstavec{Poznámka}}
 \let\poznamka=\pozn
 \def\priklad{\dalsiodstavec{Pøíklad}}
 \def\cviceni{\dalsiodstavec{Cvièení}}
-\def\pozorovani{\dalsiodstavec{Pozorování}}
-\def\algoritmus{\ifnextchar({\nazvanyalgoritmus}{\dalsiodstavec{Algoritmus}}}
-\def\nazvanyalgoritmus(#1) {\dalsiodstavec{Algoritmus (#1)}}
-\def\shrnuti{\dalsiodstavec{Shrnutí}}
-\def\definice{\dalsiodstavec{Definice}}
+\def\pozorovani{}
+\def\algoritmus{}
+\def\nazvanyalgoritmus(#1) {}
+\def\shrnuti{}
+\def\definice{}
 \def\veta{\ifnextchar({\nazvanaveta}{\dalsiodstavec{Vìta}}}
 \def\nazvanaveta(#1) {\ifnextchar*{\ignorechar{\dalsiodstavec{Vìta* (#1)}}}%
                                   {\dalsiodstavec{Vìta (#1)}}}
@@ -571,12 +556,12 @@
    \noindent\Black\def\barva{}%
    {\bf Dùkaz }(pro hloubavé ètenáøe).\space\ignorespaces}
 \def\nodukaz{\Black\def\barva{}}
-\pdfinfo{/Author (Petr Olsak)
+\pdfinfo{/Author (Petr Olšák)
+         /Title (Lineární algebra)
          /CreationDate (/\the\month/\the\year) 
          /ModDate (\the\day. \the\month. \the\year)
          /Creator (TeX)
          /Producer (pdfTeX)
-         /Title (Linearni algebra)
          /Subject (ucebni text)
          /Keywords (linearita, algebra)
 }
