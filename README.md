@@ -79,7 +79,7 @@ Poskytují několik nástrojů, jak si jednoduše vynutit základní Kindle uži
 V podstatě převzaté demo OPMacu, nápadem bylo vyzkoušet takovou šablonu zbudovat pro vertikální zobrazení v Kindlu 
 (je příjemnější na obracení stránek) a inspirovat čtenáře-zapisovatele možnostmi, jaké v tomto rozvolněném formátu má.
 
-- Výsledek TeXu v [template.pdf](tex/template.pdf)
+- Výsledek TeXu v [template.pdf](pdf/template.pdf)
 - Lze používat OPMac
 - Lze měnit formát stránky dle různých čteček
 - Nebyl řádně testován, představa je taková, že tvůrce bude znát limity zobrazení na Kindlu a tvořit podle nich
@@ -87,7 +87,7 @@ V podstatě převzaté demo OPMacu, nápadem bylo vyzkoušet takovou šablonu zb
 ### Existující skriptum [linal2.tex](tex/linal2.tex)
 Účelem bylo pozměnit existující skriptum tak, že pouhým odkomentováním jednoho řádku se totožný sobour vykreslí pro Kindle, 
 naopak jeho zakomentováním bude vykreslován pro svůj standardní formát
-- Výsledek TeXu pro `\kindletrue` v [linal2.pdf](tex/linal2.pdf)
+- Výsledek TeXu pro `\kindletrue` v [linal2.pdf](pdf/linal2.pdf)
 - Vyžaduje opravy. Suboptimální řešení. Spousta `underfull` a `overfull` hlášení, některé chyby bijí do očí
 - Původní záměr skriptum profesionálně převést se mi nezdařil, bylo by to velmi náročné
 - Přesto lze poměrně slušně použít k učení se na kindlu 
