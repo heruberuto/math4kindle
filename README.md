@@ -1,4 +1,4 @@
-# Rešerš převodu matematických výukových textů do Kindle a šablonový převod linal2.tex
+# Rešerše převodu matematických výukových textů do Kindle a šablonový převod linal2.tex
 
 Rešeršně-aplikovaný projekt [**Herberta Ullricha**](mailto:herbert.ullrich@yeti-studio.cz) odevzdávaný veřejně jako semestrální práce pro předmět [Typografie a TeX](http://petr.olsak.net/typotex.html)
 
