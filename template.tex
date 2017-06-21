@@ -1,21 +1,27 @@
 \input opmac
-  
-\sdef{pgs:kindle5}{(104,130)mm}  
-\sdef{pgs:kindleDX}{(148,210)mm}  
-\margins/1 kindle5 (5,5,5,5)mm
-  
-\parindent=5pt                % typesetting parameters
-\hyperlinks \Blue\Blue         % active hyperlinks
-\activettchar"                 % in-text verbatim by "..."
-\def\intthook{\localcolor\Red} % in-text verbatim Red
-\
+\input utf8off
+\input mixcodes
+\input kindlify
 
-\tit Demonstration
+\kindlify{portrait}
+\setauthor{P. Olsak, H. Ullrich}
+%\kindlify{kindleDXportrait}
+%\kindlify{landscape}
+%\kindlify{kindleDXlandscape}
 
+\parindent=10pt  % typesetting parameters
+\activettchar"   % in-text verbatim by "..."
+
+\tit Sample kindle sheet
+
+This product of my semester project is basically a copied demo of Petr Olsak's \ulink[http://www.olsak.net/opmac-e.html]{OPmac}, which I recommend using with the Kindlify macro.
+
+This open-source sheet should inspire you how to create quality Mathematical notes quickly and simply!
+\vfil\break
 \nonum\notoc\sec Contents
 
 \maketoc  % Table of Contents is auto-generated here
-
+\vfil\break
 \sec Lists
 
 The lists have to be surrounded by "\begitems"
@@ -48,9 +54,6 @@ We can refer to Table~\ref[my-tab] in
 Section~\ref[tab-sec] too. And Figure~\ref[my-pic]
 is on page~\pgref[my-pic].
 
-$$\label[eq2]
-	\alpha \beta
-$$
 \sec Hyperlinks
 
 You can refer to \url{http://petr.olsak.net} using "\url".

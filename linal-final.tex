@@ -69,35 +69,11 @@
 \fi
 
 \def\skipcm#1{\ifkindle\vskip0.5cm\else\vskip#1cm\fi}
-\ifkindle %%VERZE VSEOBECNYCH MAKER POUZIVANE PRI EXPORTU NA KINDLE
-	\input opmac_margins.tex
-	\sdef{pgs:kindle5landscape}{(148,100)mm}  
-	\sdef{pgs:kindleDX}{(148,210)mm}
-	\margins/1 kindle5landscape (3,3,5,5)mm
-	\hfuzz=2em
-	\nopagenumbers
-	\parindent=0pt
-	\emergencystretch=5em
-	\parindent=0.7em
-	\pdfcompresslevel=9
-  \def\offsetvalue{1mm}
-\fi
-\def\unlessKindle#1{
-\ifkindle\else#1\fi
-}
-\def\breakOnKindle{
-\ifkindle\break\fi
-}
-\def\collapsible #1 #2{
-\ifkindle#2\else#2\break
-}
 
-\def\breakeqonkindle{
-\ifkindle
-\cr &=
-\fi
-}
-
+\def\unlessKindle#1{\ifkindle\else#1\fi}
+\def\breakOnKindle{\ifkindle\break\fi}
+\def\collapsible#1#2{\ifkindle#2\else#2\break}
+\def\breakeqonkindle{\ifkindle\cr&=\fi}
 
 \def\beglink#1{}
 \def\endlink{}
@@ -642,10 +618,8 @@
 
 
 \ifkindle %%VERZE VSEOBECNYCH MAKER POUZIVANE PRI EXPORTU NA KINDLE
-	\def\bb#1 {\par\noindent{\bf #1} }
-	\def\starthead{}
-	\def\barva{} \def\leftsymbol{}
-
+	\input kindlify
+	\kindlify{landscape}
 \fi %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% konec maker pro pdfTeX %%%%%%%%%%%%%%%
 
 
