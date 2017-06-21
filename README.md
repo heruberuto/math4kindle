@@ -7,7 +7,7 @@ Amazon Kindle a jiné čtečky e-knih obstály v testu časem, je třeba je brá
 jako významné médium (neřkuli platformu budoucnosti) pro typografii jako takovou.
 
 Cílem projektu je prozkoumat možnosti návrhu sazby pro matematické skriptum (nebo zadání D.Ú., zápisy z přednášek,..).
-Ideálně najít šablonové (a částečně Ad hoc) řešení na převod existujícího materiálu v TeXu do Kindle. 
+Ideálně najít šablonové řešení na převod existujícího materiálu v TeXu do Kindle. 
 
 Vedlejším cílem je aplikace získaných poznatků na převod existujících skript 
 [Lineární algebra 2](http://petr.olsak.net/ftp/olsak/linal/linal2.pdf) od RNDr. Petra Olšáka do autorova zařízení Amazon Kindle.
@@ -54,8 +54,11 @@ Matematické výpočty mají tendenci táhnout se "do šířky", velikost Kindlu
 Převod mnohastránkového skripta v TeXu na tak malý formát při zachování profesionální typografie vyžaduje příliš mnoho času.
 
 ## Zvolená řešení
+
 ### Formát
-PDF umožní pokročilou matematickou sazbu, to je pro nás zásadní.
+Nejlepším řešením je použití **PDF**, kvalitní a snadno dostupná matematická sazba při zdrojích v TeXu 
+je v tomto případě jednoznačně důležitější než
+
 ## Produkty
 
 ## Závěr
