@@ -6,11 +6,14 @@
 
 % Toto je zdrojový text ke skriptu "úvod do algebry, zejména lineární"
 % (\booktrue) i k veøejnému textu "Lineární algebra" (\bookfalse).
+
 \input utf8off
+
 \nonstopmode
 
+\hoffset=-4mm
 \chyph % pou¾ijte formát csplain
-\advance\vsize by-5pt
+\advance\vsize by12pt
 \font\mathbf=cmmib10
 \newfam\bfmath
 \textfont\bfmath=\mathbf
@@ -18,6 +21,7 @@
 \font\bigf=csbx12 scaled\magstep3
 \font\logocvut=lev
 \def\vcerejsiverze{\advance\day by-1 }
+
 
 \newcount\kapnum \newcount\odstnum \newcount\rcenum \newcount\numlink
 \newcount\okrajnum \newcount\tempnum
@@ -37,6 +41,8 @@
 %		\def\kindlebeta{{\kern0.8em\tmp}}
 %		\let\beta=\kindlebeta
 %	\fi
+
+
 %\ladenitrue %%%%%%%%%%% tiskne odkazovací slova k jednotlivým objektùm
 %\vcerejsiverze %%%%%%%% text jsem pøipravil doma veèer a TeXuji ráno v práci
 %\twosidetrue %%%%%%%%%% pro oboustranný tisk
@@ -45,7 +51,24 @@
 %\pouzeresenitrue %%%%%% tisk pouze reseni bez textu cviceni
 \kindletrue %%%%%%%%%%% formatovat pro kindle a mobilni zarizeni
 
+\def\resenilist {\reseni 1 \reseni 2 
+  \reseni 3 \reseni 4 \reseni 5 \reseni 6 \reseni 7 \reseni 8 \reseni 10 
+  \reseni 11 
+}
 
+\def\nazevskripta {Úvod do algebry, zejména lineární}
+\ifbook
+   \let\nazevdila=\nazevskripta
+   \mag 970 % skripta nejsou presne formatu A4, ale mensi
+   \def\offsetvalue{7mm}
+   \let\orimakeheadline=\makeheadline 
+   \def\makeheadline{\orimakeheadline\medskip\nointerlineskip}
+\else
+   \def\nazevdila {Lineární algebra}
+   \def\offsetvalue{4mm}
+\fi
+
+\def\skipcm#1{\ifkindle\vskip0.5cm\else\vskip#1cm\fi}
 \ifkindle %%VERZE VSEOBECNYCH MAKER POUZIVANE PRI EXPORTU NA KINDLE
 	\input opmac_margins.tex
 	\sdef{pgs:kindle5landscape}{(148,100)mm}  
@@ -57,43 +80,36 @@
 	\emergencystretch=5em
 	\parindent=0.7em
 	\pdfcompresslevel=9
-\else	%%VERZE VSEOBECNYCH MAKER POUZIVANE MIMO EXPORT NA KINDLE
-	%TODO
+  \def\offsetvalue{1mm}
 \fi
-
-\ifkindle %%VERZE VSEOBECNYCH MAKER POUZIVANE PRI EXPORTU NA KINDLE
-	\def\bb#1 {\par\noindent{\bf #1} }
-	\def\starthead{}
-	\def\barva{} \def\leftsymbol{}
-\else	%%VERZE VSEOBECNYCH MAKER POUZIVANE MIMO EXPORT NA KINDLE
-	\def\bb#1 {\par\indent\llap{#1 }\hang\ignorespaces}
-\fi
-
-
-
-\def\resenilist {\reseni 1 \reseni 2 
-  \reseni 3 \reseni 4 \reseni 5 \reseni 6 \reseni 7 \reseni 8 \reseni 10 
-  \reseni 11 
+\def\unlessKindle#1{
+\ifkindle\else#1\fi
+}
+\def\breakOnKindle{
+\ifkindle\break\fi
+}
+\def\collapsible #1 #2{
+\ifkindle#2\else#2\break
 }
 
-\def\nazevskripta {Úvod do algebry, zejména lineární}
-\ifbook
-   \let\nazevdila=\nazevskripta
-   \mag 970 % skripta nejsou presne formatu A4, ale mensi
-   \def\offsetvalue{-4mm}
-   \let\orimakeheadline=\makeheadline 
-   \def\makeheadline{\orimakeheadline\medskip\nointerlineskip}
-\else
-   \def\nazevdila {Lineární algebra}
-	 
+\def\breakeqonkindle{
+\ifkindle
+\cr &=
 \fi
+}
 
+
+\def\beglink#1{}
+\def\endlink{}
+\def\aimlink#1{}
+\def\urllink#1{{\tt#1}}
+\def\zalozka#1{} \let\kapzalozka=\zalozka
+\def\Brown{}\def\Black{}
 
 \def\ifnextchar#1#2#3{\let\tznak=#1\def\bodyA{#2}\def\bodyB{#3}%
     \futurelet\znak\testuj}
 \def\testuj{\ifx\znak\tznak\let\next=\bodyA\else\let\next=\bodyB\fi\next}
 \def\ignorechar#1#2 {#1}
-
 
 \def\kapitola{\advance\kapnum by 1 \odstnum=0 \rcenum=0 \okrajnum=0
      \ifnextchar[{\kaplabel}{\def\dolink{}\def\kaplabelik{}\inkapitola}}
@@ -109,6 +125,16 @@
 \def\kaplabel[#1] {%\expandafter\ifx\csname c:#1\endcsname\relax
    \def\kaplabelik{#1}\def\dolink{\aimlink{c:#1}}%
    \inkapitola}
+\def\starthead{\ifodd\pageno\else\xdef\lmark{\firstmark}\fi
+   \global\headline={\vbox{%
+   \iftwoside\ifodd\pageno
+      \line{\strut\it \hfil\nazevodstavcu}%
+   \else
+      \line{\strut\it \xdef\lmark{\firstmark}\headtext\hfil}%
+   \fi\else
+      \line{\strut\it \nazevdila\hfil\headtext}%
+   \fi
+   \smallskip\hrule}}}
 \def\dalsiodstavec#1{%
    \ifnextchar*{\def\nazevodstavce{#1.\kern-2pt*}\ignorechar\doodstavec}%
                {\def\nazevodstavce{#1.}\doodstavec}}
@@ -119,6 +145,7 @@
    \ifnextchar[{\ulozlabel}{\start}}
 \def\normalendpar{\par\removelastskip \penalty-200\bigskip}
 \let\endpar=\normalendpar
+\def\barva{} \def\leftsymbol{}
 \def\ulozlabel[#1]{\aimlink{c:#1}%
      \immediate\write\fileref { \space\space\space
          \string\refodstavec [#1]{\the\kapnum.\the\odstnum}}%
@@ -161,7 +188,38 @@
 \def\citerce(#1){\expandafter\ifx\csname r:#1\endcsname\relax (??)%
    \else \beglink{r:#1}(\csname r:#1\endcsname)\endlink\fi}
 \def\okraj #1 | #2 \par {\par
-{\zalozka{#2}}}
+   \global\advance\okrajnum by 1
+   \global\setbox0=\hbox to0pt{\def\hb{\break}\line
+      \iftwoside
+      \ifodd 0\csname ok:\the\kapnum:\the\okrajnum\endcsname    
+         {\hfil\rlap{\hskip1em\vtop
+         {\hsize=.8in\noindent\raise15pt\hbox{\zalozka{#2}}\raggedright
+          \it\Brown#1\Black}}}%
+      \else {\llap{\vtop
+          {\hsize=.8in
+          \leftskip=0pt plus4em \parfillskip=0pt 
+          \noindent\raise15pt\hbox{\zalozka{#2}}%
+          \it\Brown#1\Black}\hskip1em}\hfil}%
+      \fi\else
+         {\hfil\rlap{\hskip1em\vtop
+         {\hsize=.8in\noindent\raise15pt\hbox{\zalozka{#2}}\raggedright
+          \it\Brown#1\Black}}}%
+      \fi          
+          \hss}%
+   \ht0=3.5pt\dp0=3.5pt
+   \global\everypar={\setbox2=\lastbox
+       \write\fileref{ \space\string\refokraj{\the\pageno}{#1}}%
+       {\def\uv##1{\clqq##1\crqq}\def\hb{\space}\mark{#1}}%
+       \global\everypar={}\strut\box0\box2 }
+   }
+\def\nazevodstavcu{\edef\rmark{\botmark}%
+   \ifx\lmark\empty \let\lmark=\rmark \fi
+   \ifx\lmark\rmark 
+       \ifx\lmark\empty \else \lowerfirst\lmark \lmark \fi
+   \else 
+       \lowerfirst\lmark \lowerfirst\rmark
+       {\lmark} --- {\rmark}\fi
+}
 \def\lowerfirst#1{\def\temp{#1}\expandafter\sejmiprvni#1::}
 \def\sejmiprvni#1#2::{\expandafter\def\temp{\lowercase{#1}#2}}
 
@@ -228,13 +286,7 @@
 \def\nobigspaces{\let\bigspaces=\relax}
 \def\matice#1{\left(\kern-3pt\vcenter
   {\tabskip=5pt\halign{&\strut\hfil$##$\cr#1\crcr}}\kern-3pt\right)}
-	
-\ifkindle %%VERZE VSEOBECNYCH MAKER POUZIVANE PRI EXPORTU NA KINDLE
-	\def\bb#1 {\par\noindent{\bf #1} }
-\else	%%VERZE VSEOBECNYCH MAKER POUZIVANE MIMO EXPORT NA KINDLE
-	\def\bb#1 {\par\indent\llap{#1 }\hang\ignorespaces}
-\fi
-
+\def\bb#1 {\par\indent\llap{#1 }\hang\ignorespaces}
 \def\+{\phantom+}
 \def\dotfill{\cleaders\hbox to.5em{\hfil.\hfil}\hfill}
 {\catcode`\:=13 \gdef:{\,\mathchar"003A\;}}
@@ -290,13 +342,13 @@
   \ifeof\testin \message{\warninginput}%
   \else \closein\testin \def\next{\input #1 }\fi
   \next}  
-\def\delejobsah{\kapnum=-1
+\def\delejobsah{\bgroup \kapnum=-1
 %  \advance\vsize by-4\baselineskip
   \noindent {\bbf Obsah} %\bigskip
   \def\warninginput{VAROVÁNÍ: pro vytvoøení obsahu TeXujte je¹tì jednou.}%
   \softinput \jobname.ref
   \immediate\openout\fileref\jobname.ref
-}
+  \egroup}
 \output={\iftwoside
   \ifodd\pageno \hoffset=-4mm \else \hoffset =\offsetvalue \fi\fi
   \let\uv=\relax \let~=\relax \let\lobr=\relax \plainoutput}
@@ -538,6 +590,7 @@
 \def\mmatice#1{\left(\mmaticei{#1}\right)}
 \def\dmmatice#1{\left|\mmaticei{#1}\right|}
 \def\setbar{\catcode`|=13 }
+{\setbar \gdef|{\kern-2pt&\vrule height1.35ex depth.6ex&\kern-2pt}}
 
 \ifx\pdfoutput\undefined \else %%%%%%%%%%% makra pro pdfTeX %%%%%%%%%%%%%%%%
 \pdfcompresslevel=9
@@ -587,6 +640,12 @@
    {\let~=\space\pdfoutline goto num\numlink count-\pocetokraju {#1}}}  
 \pdfcatalog{/PageMode /UseOutlines}\relax
 
+
+\ifkindle %%VERZE VSEOBECNYCH MAKER POUZIVANE PRI EXPORTU NA KINDLE
+	\def\bb#1 {\par\noindent{\bf #1} }
+	\def\starthead{}
+	\def\barva{} \def\leftsymbol{}
+
 \fi %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% konec maker pro pdfTeX %%%%%%%%%%%%%%%
 
 
@@ -627,7 +686,65 @@ chyby, abych je pak mohl v dal¹í verzi textu opravit.
 \noindent Verze textu: \the\day. \the\month. \the\year \hfill Petr Ol¹ák
 \bigskip
 }
-\def\skipcm#1{\ifkindle\vskip0.5cm\else\vskip#1cm\fi}
+
+\ifpouzereseni
+  \hoffset=4mm
+  \global\headline={\vbox{%
+      \line{\strut\it \nazevskripta \hfil Øe¹ení cvièení}%
+      \smallskip\hrule}}
+  \def\skippar #1#2{\advance\odstnum by1
+    \long\def\doskippar ##1#1{}
+    \def\next{#2}\expandafter\next\doskippar}
+  \def\cviceni {\skippar\vy\vy}
+  \def\veta {\skippar\epar\relax}
+  \def\definice {\skippar\epar\relax}
+  \def\priklad {\skippar\epar\relax}
+  \def\poznamka {\skippar\epar\relax}
+  \def\vy#1 {\bgroup
+     \def\za##1){\par\noindent\llap{$\rightarrow$ }(##1)}
+     \def\nza##1){(##1)~\ignorespaces}
+     \medskip\noindent
+     \llap{\bf\the\kapnum.\the\odstnum.$^{#1}$\enspace}%
+     {\bf Øe¹ení.} }
+  \def\du#1{${}^#1$}
+  \def\evy{\egroup}
+  \let\ekap=\endinput
+  \def\okraj #1 \par {} 
+  \def\write#1#2{}\let\immediate=\relax
+  \def\refkapitola#1#2{}
+  \def\refokraj#1#2{}{}
+  \softinput \jobname.ref
+  \def\reseni #1 {
+    \kapnum=#1 \odstnum=\csname cv:#1\endcsname
+    \long\def\skipcv ##1\cvikap #1{}
+    \expandafter \skipcv \input cviceni }
+  \poznamkakreseni
+  \resenilist
+  \expandafter \end
+\fi
+
+\ifcviceni  
+  \def\cvikap #1 {\bigskip 
+     {\bf KAPITOLA #1}\par\nobreak\medskip
+     \kapnum=#1 \odstnum=\csname cv:#1\endcsname
+  }
+  \def\vy #1 {\bgroup
+     \def\za##1){\par\noindent\llap{$\rightarrow$ }(##1)}
+     \def\nza##1){(##1)~\ignorespaces}
+     \medskip\noindent\llap{(#1) }{\bf Øe¹ení.} }
+  \def\du#1{${}^#1$}
+  \def\evy{\egroup}
+  \let\ekap=\relax
+  \def\okraj #1 \par {}
+  \def\leftsymbol{\llap{$\bullet\bullet$\kern5pt}}
+  \def\write#1#2{}\let\immediate=\relax
+  \def\refkapitola#1#2{}
+  \def\refokraj#1#2{}{}
+  \softinput \jobname.ref
+  \input cviceni 
+  \expandafter \end
+\fi
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% zacina text %%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -643,7 +760,7 @@ chyby, abych je pak mohl v dal¹í verzi textu opravit.
    \centerline{\bbf Praha, druhé vydání 2010}
 \fi
 \skipcm2
-\ifkindle\else{\centerline{\logocvut E}}\fi
+\unlessKindle{\centerline{\logocvut E}}
 
 
 \vfil\break
@@ -771,8 +888,6 @@ Copyright \copyright{} RNDr. Petr Ol¹ák, 2000, 2001, 2002, 2003, 2005,
 
 \fi %%%%%%%%% konec \ifbook
 
-
-
 \delejobsah
 
 \vfill\break
@@ -825,8 +940,10 @@ $$\nobigspaces \let\en=\enspace
   \soustava{2x-5y =& 16&                &
        \impl\en 2(2y+7)-5y = 14-y = 16 \en\impl\en \underline{y=-2} & \cr 
           {}-x+2y =&\!-7&{}\en\impl\en x = 2y+7 &&
-               \impl\en x = 2(-2) + 7 \underline{\vphantom y=3}, }
+               , }
 $$
+$$\nobigspaces \let\en=\enspace
+	\en\impl\en x = 2(-2) + 7 \en\impl\en \underline{x=3}$$
 ale nemá s Gaussovou eliminaèní metodou moc spoleèného. Pro
 rozsáhlej¹í soustavy (mnoho rovnic, mnoho neznámých) se moc nehodí.
 Zamìøíme se proto na druhou metodu \uv{sèítání rovnic}. V této metodì
@@ -838,20 +955,23 @@ mìníme postupnì soustavu rovnic na jinou soustavu se stejným
 \bb (2) Vynásobení rovnice nenulovou konstantou.\par
 \bb (3) Pøiètení libovolného násobku nìjaké rovnice k jiné.
 \medskip
+
 Pomocí tìchto úprav pøevedeme soustavu rovnic na jinou soustavu, ze
 které je ji¾ øe¹ení snadno èitelné. Jednotlivé modifikace na¹í
 soustavy od sebe oddìlujeme znakem \uv{$\sim$}.\inl[0sim]
-$$\nobigspaces\def\en{\kern2.5pt}
+$$\nobigspaces\def\en{\kern1em}
   \soustava{ 2x - 5y =& 16 \cr
            {}-x + 2y =&\! -7 } \en\sim
   \soustava{ 2x - 5y =& 16 \cr
           {}-2x + 4y =&\!\! -14 } \en\sim\en
   \soustava{ 2x - 5y =& 16 \cr
-             0x -\1y =&  2 } \en\sim\nl
-	\en\sim\en\soustava{ 2x - 5y =& 16 \cr
-                   y =&\! -2 } \en\sim\en
+             0x -\1y =&  2 } \en\sim\en
+  \soustava{ 2x - 5y =& 16 \cr
+                   y =&\! -2 }\en\sim\en$$
+$$\nobigspaces\def\en{\kern1em} \en\sim\en
   \soustava{ 2x + 0y =& 6 \cr
-                   y =&\! -2 } \en\sim\en
+                   y =&\! -2 } 
+									\en\sim\en
   \soustava{ x =& 3 \cr
              y =&\! -2 }
 $$
@@ -883,14 +1003,12 @@ matice. Vynásobení rovnice nenulovou konstantou odpovídá vynásobení
 øádku matice touto konstantou. Koneènì pøiètení násobku jedné rovnice
 k druhé je toto¾né s pøiètením násobku jednoho øádku ke
 druhému. Postup øe¹ení na¹eho pøíkladu tedy mù¾eme zapsat takto:
-
-
 $$
 \def\+{\kern3pt} \def\|{\kern3pt\strut\vrule}
   \matice{2 & -5 \|&\+16 \cr -1 & 2 \|& -7} \sim
   \matice{2 & -5 \|&  16 \cr -2 & 4 \|& -14} \sim
   \matice{2 & -5 \|&  16 \cr  0 &-1 \|&   2} \sim
-  \matice{2 & -5 \|&  16 \cr  0 & 1 \|&  -2} \sim
+  \matice{2 & -5 \|&  16 \cr  0 & 1 \|&  -2} \sim\cr&\sim
   \matice{2 &  0 \|&   6 \cr  0 &\+1\|&  -2} \sim
   \matice{1 &  0 \|&   3 \cr  0 &\+1\|&  -2}
 $$
@@ -923,12 +1041,11 @@ Koeficienty této soustavy pøepí¹eme do matice a matici budeme
 upravovat pomocí tzv. krokù Gaussovy eliminaèní metody, mezi které
 patøí prohození øádkù mezi sebou, vynásobení øádku nenulovou
 konstantou nebo pøiètení libovolného násobku nìjakého øádku k jinému.
-
 $$
   \def\text#1\nl{&\vcenter{\normalbaselines\hsize=.6\hsize\noindent #1}%
       \cr\noalign{\medskip}}
   \def\+{\kern6pt}\def\|{\kern3pt\strut\vrule}
-  \halign to\hsize{\hfil$#$\hfil\tabskip=3pt plus 1fil&$#$\tabskip=0pt\cr
+  \halign to\hsize{\hfil$#$\hfil\tabskip=10pt plus 1fil&$#$\tabskip=0pt\cr
   \hphantom{\sim}
   \matice{-4 & 4 &-1 &\+1 & -7 \|& -11 \cr
            2 &-2 & 1 &  0 &  3 \|&  4 \cr
@@ -1433,7 +1550,7 @@ pøi zápisu násobení reálných èísel.
 na které je definováno sèítání  $+: L\times L \to L$ a násobení
 reálným  èíslem $\cdot: \R\times L \to L$ a tyto operace splòují pro ka¾dé 
 $\vec x\in L, \vec y\in L, \vec z\in L, \alpha\in\R, \beta\in\R$ vlastnosti:
-$$\null\noindent\vcenter{\openup\jot
+$$\null\indent\vcenter{\openup\jot
   \ialign{\strut$#$&\quad$\displaystyle{#}$\hfil&\quad#\unskip\hfil\cr
   (1)  &  \vec x + \vec y = \vec y + \vec x  & (komutativní zákon sèítání), \cr
   (2)  &  (\vec x + \vec y) + \vec z = \vec x + (\vec y + \vec z) 
@@ -1441,12 +1558,11 @@ $$\null\noindent\vcenter{\openup\jot
   (3)  &  \alpha\cdot(\beta\cdot\vec x) = (\alpha\beta)\cdot\vec x
                      & (asociativní zákon násobení), \cr
   (4)  &  \alpha\cdot(\vec x + \vec y) = \alpha\cdot\vec x + \alpha\cdot\vec y
-             & (distributivní zákon pro sèítání prvkù $L$), \cr
+             & (distributivní \ifkindle{zák.}\else{zákon}\fi pro sèítání \ifkindle{vektorù}\else{prvkù z $L$}\fi), \cr
   (5)  &  (\alpha+\beta)\cdot\vec x = \alpha\cdot\vec x + \beta\cdot\vec x
              & (distributivní zákon pro sèítání èísel), \cr 
   (6)  &  1 \cdot\vec x = \vec x     & (vlastnost reálného èísla 1), \cr 
-  (7)  &  \hbox{existuje $\vec o\in L$, ¾e  
-	pro ka¾dé $\vec x\in L$ je }
+  (7)  &  \hbox{existuje $\vec o\in L$, ¾e pro ka¾dé $\vec x\in L$ je }
               0\cdot\vec x = \vec o
                             & (existence nulového prvku). \cr 
 }}
@@ -1543,7 +1659,7 @@ Pokraèujeme tedy vlastností (2). Pro ka¾dé $a,b,c,d,e,f\in\R$ platí:
 $$\eqalign{
   \bigl( (a, b) + (c, d)\bigr) + (e, f) &=
   (a+c, b+d) + (e, f) = \bigl((a+c)+e, (b+d)+f\bigr) = \cr
-  &=  \bigl(a+(c+e), b+(d+f)\bigr) = (a, b) + (c+e, d+f) =
+  &=  \bigl(a+(c+e), b+(d+f)\bigr) = (a, b) + (c+e, d+f) = \breakeqonkindle
   (a, b) + \bigl( (c,d) + (e,f) \bigr). \cr}
 $$
 Pøi úpravách jsme nejprve dvakrát pou¾ili definici\cite(plusdvojice),
@@ -1723,7 +1839,7 @@ funkce reálné promìnné.
 Dále potøebujeme ovìøit vlastnosti (1) a¾ (7) z~definice\cite[dlp].
 Pro libovolné $\relpenalty=10000 f\in F_D, g\in  F_D, h\in F_D,\penalty0 \alpha\in\R, \beta\in\R$ a
 pro v¹echna $x\in D$ platí:
-$$\eqalignno{
+$$\eqalign{
 \bod (1)    (f+g) (x) = f(x) + g(x) = g(x) + f(x) = (g+f) (x), \cr
 \bod (2)    \bigl((f+g) + h\bigr) (x) = (f+g)(x) + h(x) = 
             \bigl( f(x) + g(x)\bigr) + h(x) = 
@@ -1741,7 +1857,7 @@ $$\eqalignno{
            (\alpha\cdot f + \alpha\cdot g) (x), \cr
 \bod (5)   \bigl((\alpha+\beta)\cdot f\bigr)(x) = 
            (\alpha+\beta)\,f(x) = \alpha\,f(x) + \beta\,f(x) =
-           (\alpha\cdot f)(x) + (\beta\cdot f)(x) =
+           (\alpha\cdot f)(x) + (\beta\cdot f)(x) = \cr &\odsun =
            (\alpha\cdot f + \beta\cdot f) (x), \cr
 \bod (6)   (1\cdot f)(x) = 1\cdot f(x) = f(x), \cr
 \bod (7)   (0\cdot f)(x) = 0\cdot f(x) = o(x), \hbox{ kde funkce $o$ má pro

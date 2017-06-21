@@ -1,0 +1,125 @@
+
+\newcount\tmpnum % auxiliary count
+\newdimen\tmpdim % auxiliary dimen
+
+\def\opwarning#1{\immediate\write16{l.\the\inputlineno\space OPmac WARNING: #1.}}
+
+\long\def\addto#1#2{\expandafter\def\expandafter#1\expandafter{#1#2}}
+
+\def\protectlist{}
+\def\addprotect#1{\addto\protectlist{\doprotect#1}}
+\addprotect~
+
+\ifx\pdfextension\undefined \else 
+   \let\pdfoutput=\outputmode \def\pdfcolorstackinit{\pdffeedback colorstackinit}\fi
+
+\newif\ifpdftex  \pdftextrue
+\ifx\pdfoutput\undefined \pdftexfalse \else \ifnum\pdfoutput=0 \pdftexfalse \fi \fi
+\ifx\XeTeXversion\undefined \else \pdftextrue \fi
+
+\def\sdef#1{\expandafter\def\csname#1\endcsname}
+\def\sxdef#1{\expandafter\xdef\csname#1\endcsname}
+\def\slet#1#2{\expandafter\let\csname#1\expandafter\endcsname\csname#2\endcsname}
+
+\def\adef#1{\catcode`#1=13 \begingroup \lccode`\~=`#1\lowercase{\endgroup\def~}}
+
+\def\isdefined #1#2{\expandafter\ifx \csname#1\endcsname \relax
+     \csname iffalse\expandafter\endcsname
+   \else
+     \csname iftrue\expandafter\endcsname
+   \fi
+}
+\long\def\isinlist#1#2#3{\begingroup \long\def\tmp##1#2##2\end{\def\tmp{##2}%
+   \ifx\tmp\empty \endgroup \csname iffalse\expandafter\endcsname \else
+                  \endgroup \csname iftrue\expandafter\endcsname \fi}% end of \def\tmp
+   \expandafter\tmp#1\endlistsep#2\end
+}
+\long\def\isnextchar#1#2#3{\begingroup\toks0={\endgroup#2}\toks1={\endgroup#3}%
+   \let\tmp=#1\futurelet\next\isnextcharA
+}
+\def\isnextcharA{\the\toks\ifx\tmp\next0\else1\fi\space}
+
+\def\eoldef#1{\def#1{\begingroup \catcode`\^^M=12 \eoldefA#1}%
+   \expandafter\def\csname\string#1:M\endcsname}
+{\catcode`\^^M=12 \gdef\eoldefA#1#2^^M{\endgroup\csname\string#1:M\endcsname{#2}}}
+
+\def\maybebreak{\afterassignment\maybebreakA\tmpdim=}
+\def\maybebreakA{\ifvmode \vskip0pt plus\tmpdim \penalty-130 \vskip0pt plus-\tmpdim 
+    \else \hskip0pt plus\tmpdim \penalty-130 \hskip0pt plus-\tmpdim \fi \relax
+}
+\def\uv#1{\clqq#1\crqq}
+\let\\=\undefined
+{\lccode`\?=`\%  \lowercase{\gdef\percent{?}}}
+{\lccode`\?=`\\  \lowercase{\gdef\bslash{?}}}
+\def\,{\relax\ifmmode \mskip\thinmuskip \else \thinspace \fi}
+\addprotect\percent \addprotect\bslash \addprotect\, \addprotect\exfont
+
+\bgroup \catcode`!=3 \catcode`?=3
+\gdef\replacestrings#1#2{\long\def\replacestringsA##1#1{\def\tmpb{##1}\replacestringsB}%
+   \long\def\replacestringsB##1#1{\ifx!##1\relax \else\addto\tmpb{#2##1}%
+      \expandafter\replacestringsB\fi}%     improved version <May 2016> inspired 
+   \expandafter\replacestringsA\tmpb?#1!#1% from pysyntax.tex by Petr Krajnik
+   \long\def\replacestringsA##1?{\def\tmpb{##1}}\expandafter\replacestringsA\tmpb
+}
+\egroup
+
+
+\newdimen\pgwidth  \newdimen\pgheight  \pgwidth=0pt
+\newdimen\shiftoffset
+
+\def\margins/#1 #2 (#3,#4,#5,#6)#7 {\def\tmp{#7}%
+   \ifx\tmp\empty
+      \opwarning{\string\margins: missing unit, mm inserted}\def\tmp{mm}\fi
+   \addto\tmp{\relax}%
+   \setpagedimens #2 % setting \pgwidth, \pgheight
+   \ifdim\pgwidth=0pt \else
+      \hoffset=-1\trueunit in \voffset=-1\trueunit in
+      \if$#3$\if$#4$\tmpdim=\pgwidth \advance\tmpdim -\hsize
+                    \divide\tmpdim by2 \advance\hoffset \tmpdim % left=right
+             \else  \rbmargin\hoffset\hsize{#4\tmp}% only right margin
+             \fi
+      \else  \if$#4$\advance\hoffset #3\tmp   % only left margin
+             \else  \hsize=\pgwidth           % left+right margin
+                    \advance\hsize -#3\tmp \advance\hsize -#4\tmp
+                    \advance\hoffset #3\tmp
+      \fi\fi
+      \if$#5$\if$#6$\tmpdim=\pgheight \advance\tmpdim -\vsize
+                    \divide\tmpdim by2 \advance\voffset \tmpdim % top=bottom
+             \else  \rbmargin\voffset\vsize{#6\tmp}% only bottom margin
+             \fi
+      \else  \if$#6$\advance\voffset #5\tmp   % only top margin
+             \else  \vsize=\pgheight          % top+bottom margin
+                    \advance\vsize -#5\tmp \advance\vsize -#6\tmp
+                    \advance\voffset #5\tmp
+      \fi\fi
+      \if 1#1\shiftoffset=0pt \def\prephoffset{}\else \if 2#1% double-page layout
+         \shiftoffset=\pgwidth \advance\shiftoffset -\hsize
+         \advance\shiftoffset -2\hoffset \advance\shiftoffset -2in
+         \def\prephoffset{\ifodd\pageno \else \advance\hoffset \shiftoffset \fi}%
+      \else \opwarning{use \string\margins/1 or \string\margins/2}%
+   \fi\fi\fi
+}
+\def\rbmargin#1#2#3{\advance#1\pgwidth \advance#1-#2 \advance#1-#3}
+
+\def\setpagedimens{\isnextchar({\setpagedimensB}{\setpagedimensA}}
+\def\setpagedimensA#1 {\isdefined{pgs:#1}\iftrue
+   \expandafter\expandafter\expandafter\setpagedimensB \csname pgs:#1\expandafter\endcsname\space
+   \else \opwarning{page specification "#1" is undefined}\fi}
+\def\setpagedimensB (#1,#2)#3 {\setpagedimensC\pgwidth=#1:#3 \setpagedimensC\pgheight=#2:#3
+    \ifx\pdfpagewidth\undefined \else
+        \pdfpagewidth=\pgwidth \pdfpageheight=\pgheight \fi}
+\def\setpagedimensC #1=#2:#3 {#1=#2\ifx^#3^\tmp\else#3\fi\relax\truedimen#1}
+
+\sdef{pgs:a3}{(297,420)mm}  \sdef{pgs:a4}{(210,297)mm}  \sdef{pgs:a5}{(148,210)mm}
+\sdef{pgs:a3l}{(420,297)mm} \sdef{pgs:a4l}{(297,210)mm} \sdef{pgs:a5l}{(210,148)mm}
+\sdef{pgs:b5}{(176,250)mm}  \sdef{pgs:letter}{(8.5,11)in}
+
+\def\trueunit{}
+\def\magscale[#1]{\mag=#1\def\trueunit{true}%
+   \ifdim\pgwidth=0pt \else \truedimen\pgwidth \truedimen\pgheight \fi
+   \ifx\pdfpagewidth\undefined \else 
+      \truedimen\pdfpagewidth \truedimen\pdfpageheight 
+      \ifx\pdfhorigin\undefined\else       
+         \pdfhorigin=1truein \pdfvorigin=1truein % Origin is independent off \mag
+   \fi\fi}
+\def\truedimen#1{\ifx\trueunit\empty \else#1=\expandafter\ignorept\the#1truept \fi}
