@@ -1,6 +1,6 @@
 # Rešerš převodu matematických výukových textů do Kindle a šablonový převod linal2.tex
 
-Rešeršně-aplikovaný projekt odevzdávaný veřejně jako semestrální práce pro předmět [Typografie a TeX](http://petr.olsak.net/typotex.html)
+Rešeršně-aplikovaný projekt [**Herberta Ullricha**](mailto:herbert.ullrich@yeti-studio.cz) odevzdávaný veřejně jako semestrální práce pro předmět [Typografie a TeX](http://petr.olsak.net/typotex.html)
 
 ## Úvod, cíle práce
 Amazon Kindle a jiné čtečky e-knih obstály v testu časem, je třeba je brát na vědomí
@@ -23,7 +23,8 @@ Sám autor projektu zápasí s dlouhými hodinami času ztraceného na cestách 
 kde by bylo vítáno přečíst si zajímavé materiály a zároveň osvěžit své znalosti, ale málokdy si vozí skripta.
 
 Většina výukových materiálů používajících matematickou sazbu je psána v (La)TeXu a autoři zdrojový kód na požádání uvolní čtenáři.
-K tomu se skripta a výuka, která čtenáře zajímá, velmi rychle mění a časově se mu nevyplácí každý materiál ad hoc převádět.
+Ovšem skripta a výuka, která čtenáře zajímá, se velmi rychle mění a časově se mu nevyplácí každý materiál ad hoc převádět.
+
 Ideálním výstupem projektu by tedy bylo šablonové řešení, které umožní snadno přeformátovat existující materiál v TeXu snadno a
  rychle do formátu příjemně čitelného v Kindle.
  
@@ -32,9 +33,9 @@ Ideálním výstupem projektu by tedy bylo šablonové řešení, které umožn�
 - Jak dobře zvládá Kindle formát PDF? (odkazy, obsah, meta-tagy)
 - Je možný šablonový převod, nebo je újma na čitelnosti neúnosná?
 
-## Objevené problémy
+## Problémy
 ### Nativní formáty čteček a matematická sazba
-Přestože jsou formáty .epub a .mobi skvěle provázané s vnitřní funkcionalitou zařízení (odkazy uvnitř fungují, obrázky se natahují dle rozměrů, na obsah lze skočit tlačítkem),
+Přestože jsou formáty *.epub* a *.mobi* skvěle provázané s vnitřní funkcionalitou zařízení (odkazy uvnitř fungují, obrázky se natahují dle rozměrů, na obsah lze skočit tlačítkem),
 o matematickou sazbu se příliš nestarají.
 
 Po několika pokusech a kontrolách [komunity](https://forums.createspace.com/en/community/message/164683) vyplývá najevo, že
@@ -42,7 +43,7 @@ nativním *best practice* řešením je převod vší matematické sazby na obr�
 *jednoho* daného skripta, ale pro agilní převod mnoha materiálů je to příliš práce.
 
 ### Kindle a PDF
-Možnosti čtení PDF v Kindle jsou oproti nativním formátům výrazně ořezaná. Dokumenty lze listovat, automaticky se oříznou prázdné okraje,
+Možnosti čtení PDF v Kindle jsou oproti nativním formátům výrazně ořezané. Dokumenty lze listovat, automaticky se oříznou prázdné okraje,
 ovšem [odkazy](https://www.mobileread.com/forums/showthread.php?t=122219) a navigaci v dokumentu většina zařízení při četbě PDF naprosto zablokuje (možno je jen skočit na číslo stránky).
 
 Čitelnost klesá se stoupající velikostí formátu dokumentu (samozřejmě), součástí *GUI* čteček je číslo stránky, zbytečně zdvojuje
@@ -53,32 +54,50 @@ Matematické výpočty mají tendenci táhnout se "do šířky", velikost Kindlu
 ### Náklady na převod existujícího materiálu
 Převod mnohastránkového skripta v TeXu na tak malý formát při zachování profesionální typografie vyžaduje příliš mnoho času.
 
-## Zvolená řešení
-
-### Formát
-Nejlepším řešením je použití **PDF**, kvalitní a snadno dostupná matematická sazba při zdrojích v TeXu 
-je v tomto případě jednoznačně důležitější než
+### Nemožnost šablonového řešení
+Každý typograf sází jinak, převod je vždy nutno dělat jinak, nebo bude výsledek suboptimální.
+## Použitelné technologie
+Vzhledem k selhání nativních formátů při sázení matematiky, bude nutno se spokojit pouze s úpravami rozložení textu.
+### PDF
+- TeX je přímo generuje
+- Kvalitní mat. sazba je prioritou oproti spolupráci s uživatelským rozhraním čtečky
+- Nutnost pracovat na šířku, ignorovat okraje, čísla stránek
+### Makra vyňatá z [OPMac](http://petr.olsak.net/opmac.html)
+- Vhodně implementují změnu formátu stránky
+- Při tvorbě nových materiálů použit OPMac jako celek, usnadňuje psaní zápisu aj.
 
 ## Produkty
+Při rešerši vzniklo několik experimentálních produktů. Najdete je ve složkách [tex](tex) a 
+[pdf](pdf).
+### Makra [kindlify.tex](tex/kindlify.tex)
+Poskytují několik nástrojů, jak si jednoduše vynutit základní Kindle uživatelskou přívětivost.
+- `\input kindlify` lze vložit těsně nad začátek textu Lineární algebry, čímž se přepíšou nehodící se makra na prázdná
+- `\kindlify{portrait}` změní velikost dokumentu na rozměry Kindle obrazovky na stojato. Podobně fungují `\kindlify{landscape}`, `\kindlify{kindleDXportrait}`, a `\kindlify{kindleDXlandscape}`.
+- `\setauthor{JMENO}` nastaví tag autor (jediná metadata, která Kindle čte) na hodnotu `JMENO`
+
+### Zápisový vzor [template.tex](tex/template.tex)
+V podstatě převzaté demo OPMacu, nápadem bylo vyzkoušet takovou šablonu zbudovat pro vertikální zobrazení v Kindlu 
+(je příjemnější na obracení stránek) a inspirovat čtenáře-zapisovatele možnostmi, jaké v tomto rozvolněném formátu má.
+
+- Výsledek TeXu v [template.pdf](tex/template.pdf)
+- Lze používat OPMac
+- Lze měnit formát stránky dle různých čteček
+- Nebyl řádně testován, představa je taková, že tvůrce bude znát limity zobrazení na Kindlu a tvořit podle nich
+
+### Existující skriptum [linal2.tex](tex/linal2.tex)
+Účelem bylo pozměnit existující skriptum tak, že pouhým odkomentováním jednoho řádku se totožný sobour vykreslí pro Kindle, 
+naopak jeho zakomentováním bude vykreslován pro svůj standardní formát
+- Výsledek TeXu pro `\kindletrue` v [linal2.pdf](tex/linal2.pdf)
+- Vyžaduje opravy. Suboptimální řešení. Spousta `underfull` a `overfull` hlášení, některé chyby bijí do očí
+- Původní záměr skriptum profesionálně převést se mi nezdařil, bylo by to velmi náročné
+- Přesto lze poměrně slušně použít k učení se na kindlu 
+- Ponechána barevnost skript, je velmi užitečná při čtení na smartphone
 
 ## Závěr
+Portovat existující skripta do Kindle je velmi náročné. Spokojíme-li se se suboptimálním řešením, je možno ho pomocí produktů této rešerše získat velmi rychle.
 
-## Náplň projektu
-Prozkoumat možnosti, jak udělat PDF co nejpřívětivější pro čtení v různých kapesních čtečkách a navrhnout konkrétní TeX vzor,
-který těchto možností využívá a je snadné převést do něj existující texty.
+Také se ukazuje, že listování velkým množstvím informací, které na sebe referují
+je na pomalé čtečce lehce neohrabané. Eventuelní řešení by mohlo spočívat v exportu stručnějších výcuců nebo přednáškových archů.
+Existující výcuc `linal-s.tex` se bohužel mezi produkty k přeformátování nedostal, neboť vykazuje chyby při vykreslování.
 
-### Možnosti Kindle k prozkoumání
-- GUI kindle vypisuje číslo stránky, umí také začít s číslováním až po obsahu a obálce (stránka 1 je na 7. obrazovce) - lze toto s PDF?
-- GUI kindle zobrazuje "progress-bar" (lištu vybarvující se podle toho, jak daleko v knize čtenář je) se zarážkami dle kapitol - lze v PDF?
-- Kindle umožňuje skočit na Obsah - Lze v PDF?
-- PDF dokumenty stažené do Kindle tradičně nemají dostatečné meta-informace (Název knihy = název PDF souboru, autor = neznámý), jak je zadávat?
-- Existující matematická skripta mohou používat složitá vlastní formátování, obrázky, tabulky, makra. Lze položit univerzální makra, která by
-je umožnila co možná jednoduše přeformátovat?
-
-## Licenční ujednání
-GNU General Public License, prvky kódu, nikoli však skript p. Olšáka, může využívat každý dle libosti.
-Účelem je osvěta, nikoli zisk.
-
-///Přestože jsou čtečky a jejich vstupní formáty vybaveny desítkami funkcionalit
-   jak pro kvalitu sazby, tak pro uživatelskou přívětivost (ligatury, odkazy, skoky podle názvů kapitol aj.)
-   matematickou sazbu stále neumějí.
+Produktem práce jsou tedy bohužel především informace o omezeních a ústupcích, které je třeba udělat.

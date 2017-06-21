@@ -1,4 +1,4 @@
-
+%%%%TAKEN FROM OPMAC
 \newcount\tmpnum % auxiliary count
 \newdimen\tmpdim % auxiliary dimen
 
@@ -110,10 +110,6 @@
         \pdfpagewidth=\pgwidth \pdfpageheight=\pgheight \fi}
 \def\setpagedimensC #1=#2:#3 {#1=#2\ifx^#3^\tmp\else#3\fi\relax\truedimen#1}
 
-\sdef{pgs:a3}{(297,420)mm}  \sdef{pgs:a4}{(210,297)mm}  \sdef{pgs:a5}{(148,210)mm}
-\sdef{pgs:a3l}{(420,297)mm} \sdef{pgs:a4l}{(297,210)mm} \sdef{pgs:a5l}{(210,148)mm}
-\sdef{pgs:b5}{(176,250)mm}  \sdef{pgs:letter}{(8.5,11)in}
-
 \def\trueunit{}
 \def\magscale[#1]{\mag=#1\def\trueunit{true}%
    \ifdim\pgwidth=0pt \else \truedimen\pgwidth \truedimen\pgheight \fi
@@ -123,3 +119,29 @@
          \pdfhorigin=1truein \pdfvorigin=1truein % Origin is independent off \mag
    \fi\fi}
 \def\truedimen#1{\ifx\trueunit\empty \else#1=\expandafter\ignorept\the#1truept \fi}
+
+%%SET SMALL FORMAT MACRO
+
+%% KINDLE PAGE FORMATS
+\sdef{pgs:portrait}{(100,148)mm}
+\sdef{pgs:landscape}{(148,100)mm}  
+\sdef{pgs:kindleDXportrait}{(148,210)mm} 
+\sdef{pgs:kindleDXlandscape}{(210,148)mm}
+
+\def\kindlify#1{
+	\margins/1 #1 (3,3,3,3)mm
+	\hfuzz=2em
+	\nopagenumbers
+	\parindent=0pt
+	\emergencystretch=5em
+	\parindent=0.7em
+	\pdfcompresslevel=9
+  \def\offsetvalue{1mm}
+}
+
+\def\setauthor#1{\pdfinfo{/Author (#1)}}
+
+%% MACROS FOR LINAL
+\def\bb#1 {\par\noindent{\bf #1} }
+\def\starthead{}
+\def\barva{} \def\leftsymbol{}
