@@ -57,7 +57,7 @@ Převod mnohastránkového skripta v TeXu na tak malý formát při zachování 
 ### Nemožnost šablonového řešení
 Každý typograf sází jinak, převod je vždy nutno dělat jinak, nebo bude výsledek suboptimální.
 ## Použitelné technologie
-Vzhledem k selhání nativních formátů při sázení matematiky, bude nutno se spokojit pouze s úpravami rozložení textu.
+Vzhledem k selhání nativních formátů při sázení matematiky bude nutno se spokojit pouze s úpravami rozložení textu.
 ### PDF
 - TeX je přímo generuje
 - Kvalitní mat. sazba je prioritou oproti spolupráci s uživatelským rozhraním čtečky
