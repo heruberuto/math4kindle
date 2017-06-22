@@ -9722,6 +9722,11 @@ $$
   \matice{1 &\+1 & 2 &\+3 & 3 & 3 \|&  1 \cr
           0 & 0 &-1 & 0 &-2 &-2   \|& -2  \cr
           0 & 0 &-2 & 0 &-4 & 2   \|&  8 } \sim
+					$$
+					$$
+  \def\+{\kern3pt} \def\|{\kern4pt\strut\vrule}\!
+  \thickmuskip=3mu
+	\sim
   \matice{1 & 1 & 2 & 3 & 3 & 3 \|& 1 \cr
           0 & 0 & 1 & 0 & 2 & 2 \|& 2 \cr
           0 & 0 & 0 & 0 & 0 & 6 \|& 12 } \sim
@@ -9955,6 +9960,9 @@ $$
   \limits^{\vbox{\hbox to90pt
     {$x_1\hss x_2\hss x_5\hss x_4\hss x_3$\kern 18pt}\kern3pt}}  
   \sim
+$$
+$$
+  \sim
   \matice{1 & \+0 & \+0 & \+14 & -4 \|&  1 \cr
           0 & 1 & 0 & -7 & 3 \|& -4 \cr
           0 & 0 & 1 & 4 & 0 \|& 6 } \!
@@ -10006,6 +10014,7 @@ V pøípadì, ¾e soutava má nenulovou pravou stranu, pak mno¾inou øe¹ení je
 rovina, která neprochází poèátkem. Je to rovina $\varrho$ rovnobì¾ná s mno¾inou
 øe¹ení pøidru¾ené homogenní soustavy $\varrho'$ a prochází bodem, který je dán
 jako partikulární øe¹ení $\vec v$. Viz obrázek.
+
 {\emergencystretch=2em\par}
 
 \dolu 2mm
@@ -10136,7 +10145,7 @@ rozebráno podrobnì v následující poznámce.
 %Pøitom rozdíl dvou partikulárních øe¹ení musí rovnì¾ le¾et v mno¾inì
 %pøidru¾ené homogenní soustavy. V následující poznámce shrneme, jak lze
 %tento test provést.
-
+\vfil\break
 \poznamka* [ruznareseni]
 %%%%%%%%%
 Co udìláme, pokud se nám dostanou do ruky dva zápisy øe¹ení nìjaké
@@ -10425,7 +10434,11 @@ $$
   \matice{1 & 1 & 2 & 3 & 3 & 3 \|& 2 & 4 & 3 & 3 \cr
           0 & 0 & 1 & 0 & 2 & 2 \|& 0 & 2 & 2 & 0 \cr
           0 &\ 0 &\ 2 &\ 0 &\ 4 &-2 \|&\ 3 &\ 6 &\ 3 &\ 2 } \sim
-  \matice{1 & 1 & 2 & 3 & 3 & 3 \|& 2 & 4 & 3 & 3 \cr
+$$
+$$
+ \thickmuskip=3mu
+ \def\|{\kern4pt\strut\vrule}\!
+  \sim\matice{1 & 1 & 2 & 3 & 3 & 3 \|& 2 & 4 & 3 & 3 \cr
           0 & 0 & 1 & 0 & 2 & 2 \|& 0 & 2 & 2 & 0 \cr
           0 & 0 & 0 & 0 & 0 & 6 \|&-3 &-2 &\ 1 &-2 }.
 $$
@@ -10528,6 +10541,8 @@ $$
  \catcode`+=13 \def+{\hphantom{-}}
  \L' = \pmatrix{+1&+0&+0\cr-2&+1&+0\cr+8&-6&+1}, \qquad
  \U =  \pmatrix{1&+2&+3\cr0&-1&-5\cr0&+0&\,18}, \qquad
+$$
+$$
  \L'\cdot \vec b = 
  \pmatrix{+1&+0&+0\cr-2&+1&+0\cr+8&-6&+1}\cdot\pmatrix{5\cr7\cr6} = 
  \pmatrix{+5\,\cr-3\,\cr+4\,}
