@@ -44,7 +44,7 @@ nativním *best practice* řešením je převod vší matematické sazby na obr�
 
 ### Kindle a PDF
 Možnosti čtení PDF v Kindle jsou oproti nativním formátům výrazně ořezané. Dokumenty lze listovat, automaticky se oříznou prázdné okraje,
-ovšem [odkazy](https://www.mobileread.com/forums/showthread.php?t=122219) a navigaci v dokumentu většina zařízení při četbě PDF naprosto zablokuje (možno je jen skočit na číslo stránky).
+ovšem [odkazy](https://www.mobileread.com/forums/showthread.php?t=122219) a navigaci v dokumentu většina zařízení při četbě PDF naprosto zablokuje (možno je jen skočit na číslo stránky). 
 
 Čitelnost klesá se stoupající velikostí formátu dokumentu (samozřejmě), součástí *GUI* čteček je číslo stránky, zbytečně zdvojuje
 číslo, které je součástí dokumentu.
@@ -101,3 +101,6 @@ je na pomalé čtečce lehce neohrabané. Eventuelní řešení by mohlo spočí
 Existující výcuc `linal-s.tex` se bohužel mezi produkty k přeformátování nedostal, neboť vykazuje chyby při vykreslování.
 
 Produktem práce jsou tedy bohužel především informace o omezeních a ústupcích, které je třeba udělat.
+
+##Dodatky
+- `22. červen 2017` - pro aktuální verzi `linal2.tex` zvládne čtečka PocketBook vykreslit klikací obsah knihy v rozbalovacím menu.
